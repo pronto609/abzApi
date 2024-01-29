@@ -14,7 +14,7 @@ class UserStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,11 +25,11 @@ class UserStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2|mex:60',
+            'name' => 'required|min:2|max:60',
             'email' => 'required|email:rfc|unique:users,email',
             'phone' => ['required', new \App\Rules\phoneUKR],
-            'position_id' => Rule::exists('positions', ['id']),
-            'photo' => 'required|file|size:5120|extensions:jpg,jpeg',
+            'position_id' => [Rule::exists('positions', 'id')],
+            'photo' => 'required|file|max:5120|mimes:jpg,jpeg|dimensions:min_width=70,min_height=70',
             'password' => 'required|confirmed|min:6'
         ];
     }
