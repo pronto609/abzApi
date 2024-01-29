@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TokenController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('token', [TokenController::class, 'index'])->name('token');
+
+Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])
+    ->name('users.index');
+Route::post('users', [\App\Http\Controllers\UserController::class, 'store'])
+    ->middleware('accessRegister')->name('users.store');

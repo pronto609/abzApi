@@ -195,6 +195,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Shetabit\TokenBuilder\Provider\TokenBuilderServiceProvider::class,
+
     ],
 
     /*
@@ -210,6 +212,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'TokenBuilder' => Shetabit\TokenBuilder\Facade\TokenBuilder::class,
     ])->toArray(),
 
 ];
