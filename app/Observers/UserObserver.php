@@ -17,7 +17,6 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $user->phone = \App\Service\PhoneCast::cast($user->phone);
         $user->photo = $this->filePrepare($user->photo, $user);
     }
 

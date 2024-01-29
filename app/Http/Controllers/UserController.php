@@ -32,13 +32,17 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\UserStoreRequest  $request
-     * @return \Illuminate\Http\Resources\Json\JsonResource
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function store(\App\Http\Requests\UserStoreRequest $request)
     {
         $validatedData = $request->validated();
         $user = User::create($validatedData);
-        return new UserStoreResource($user);
+        return response()->json([
+            'success' => true,
+            'user_id' => $user->id,
+            'message' => 'New user successfully registered'
+        ]);
     }
 
     /**

@@ -25,8 +25,7 @@ class phoneUKR implements Rule
      */
     public function passes($attribute, $value)
     {
-        $phone = \App\Service\PhoneCast::cast($value);
-        return preg_match('#[\+]{0,1}380([0-9]{9})$#', $phone);
+        return preg_match('#[\+]{0,1}380([0-9]{9})$#', $value);
     }
 
     /**
