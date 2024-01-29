@@ -16,3 +16,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('positions', [\App\Http\Controllers\PositionController::class, 'index'])
+    ->name('positions.index');
+
+Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])
+    ->name('users.index');
+Route::get('users/{user}', [\App\Http\Controllers\UserController::class, 'show'])
+    ->whereNumber('user')
+    ->name('users.show');
+Route::post('users', [\App\Http\Controllers\UserController::class, 'store'])
+    ->middleware('accessRegister')->name('users.store');
