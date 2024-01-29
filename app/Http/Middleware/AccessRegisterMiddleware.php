@@ -16,15 +16,15 @@ class AccessRegisterMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-//        $tokenString = $request->header('Token');
-//        $tokenObject = Token::where('token', '=', $tokenString)->first();
-//        if (!$tokenObject->isValid()) {
-//            return response()->json([
-//                'success' => false,
-//                'message' => 'The token expired.'
-//            ], 401);;
-//        }
-//        $tokenObject->use();
+        $tokenString = $request->header('Token');
+        $tokenObject = Token::where('token', '=', $tokenString)->first();
+        if (!$tokenObject->isValid()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The token expired.'
+            ], 401);
+        }
+        $tokenObject->use();
         return $next($request);
     }
 }

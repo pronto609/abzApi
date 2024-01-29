@@ -15,6 +15,7 @@
         "shetabit/token-builder": "^2.0",
         "spatie/laravel-query-builder": "^5.7",
         "tightenco/collect": "^9.52",
+        "tinify/tinify": "^1.6",
         "tymon/jwt-auth": "^2.0"
     },
     "require-dev": {

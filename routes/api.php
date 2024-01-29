@@ -14,14 +14,16 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-//
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
 
 Route::get('token', [TokenController::class, 'index'])->name('token');
 
+Route::get('positions', [\App\Http\Controllers\PositionController::class, 'index'])
+    ->name('positions.index');
+
 Route::get('users', [\App\Http\Controllers\UserController::class, 'index'])
     ->name('users.index');
+Route::get('users/{user}', [\App\Http\Controllers\UserController::class, 'show'])
+    ->whereNumber('user')
+    ->name('users.show');
 Route::post('users', [\App\Http\Controllers\UserController::class, 'store'])
     ->middleware('accessRegister')->name('users.store');

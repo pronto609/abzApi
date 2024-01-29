@@ -3,12 +3,21 @@
 namespace App\Observers;
 
 use App\Models\User;
+use App\Service\Resizer;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UserObserver
 {
+
+    public function __construct(
+        private Resizer $resizer,
+        private string $imageDir = 'users',
+        private string $createdPath = ''
+    ) {
+    }
+
     /**
      * Handle the User "created" event.
      *
@@ -18,7 +27,7 @@ class UserObserver
     public function created(User $user)
     {
         if ($user->photo instanceof \Illuminate\Http\UploadedFile) {
-            $user->photo = $this->filePrepare($user->photo, $user);
+            $user->photo = $this->fileResise($user->photo, $user);
         }
     }
 
@@ -66,13 +75,28 @@ class UserObserver
         //
     }
 
-    private function filePrepare(UploadedFile $file, User $user = null)
+    private function fileResise(UploadedFile $file, User $user = null)
     {
+        $path = $this->prepareDir();
         if ($user) {
-        $filename = Str::uuid() . "_" .$file->getClientOriginalName();
-        Storage::disk('local')->put('public/'.$filename, file_get_contents($file));
-            Storage::disk('local')->delete('public/' . $user->photo);
+            $filename = Str::uuid() . "_" .$file->getClientOriginalName();
+            $originFile = file_get_contents($file);
+            $this->resizer->resizeFromBuffer($filename, $originFile,$path.'/'.$filename);
         }
-        return $filename;
+        return $path;
+    }
+
+    private function prepareDir(): string
+    {
+        $path = public_path($this->imageDir);
+        if ($this->createdPath) {
+            return $this->createdPath;
+        }
+        if (!is_dir($path)) {
+            mkdir($path, 0777, true);
+            $this->createdPath = $path;
+            return $this->createdPath;
+        }
+        return $path;
     }
 }
