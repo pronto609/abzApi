@@ -17,7 +17,9 @@ class UserObserver
      */
     public function created(User $user)
     {
-        $user->photo = $this->filePrepare($user->photo, $user);
+        if ($user->photo instanceof \Illuminate\Http\UploadedFile) {
+            $user->photo = $this->filePrepare($user->photo, $user);
+        }
     }
 
     /**

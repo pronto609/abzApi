@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class PositionFactory extends Factory
 {
     public static array $positions = [
-        'Security',
+        1=>'Security',
         'Designer',
         'Content manager',
         'Lawyer',
     ];
 
-    protected static int $num = 0;
+    protected static int $num = 1;
     /**
      * Define the model's default state.
      *

@@ -34,16 +34,18 @@ class UserStoreRequest extends FormRequest
             'password' => 'required|confirmed|min:6'
         ];
     }
-
-    public function validate(array $rules, ...$params): array
-    {
-        return parent::validate($rules, $params);
-    }
-
     protected function prepareForValidation()
     {
         $phone = $this->request->get('phone');
         $castPhone = PhoneCast::cast($phone);
         $this->request->set('phone', $castPhone);
+    }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => 'User with this phone or email already exist',
+            'phone.unique' => 'User with this phone or email already exist'
+        ];
     }
 }
